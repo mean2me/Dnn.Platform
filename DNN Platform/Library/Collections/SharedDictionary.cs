@@ -213,6 +213,17 @@ namespace DotNetNuke.Collections.Internal
             return _lockController.GetReadLock(timeOut);
         }
 
+        public ISharedCollectionLock GetUpgradeableReadLock()
+        {
+            return GetUpgradeableReadLock(TimeSpan.FromMilliseconds(-1));
+        }
+
+        public ISharedCollectionLock GetUpgradeableReadLock(TimeSpan timeOut)
+        {
+            EnsureNotDisposed();
+            return _lockController.GetUpgradeableReadLock(timeOut);
+        }
+
         public ISharedCollectionLock GetReadLock(int millisecondTimeout)
         {
             return GetReadLock(TimeSpan.FromMilliseconds(millisecondTimeout));

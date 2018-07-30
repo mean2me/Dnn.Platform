@@ -39,5 +39,9 @@ namespace DotNetNuke.Collections.Internal
         ISharedCollectionLock GetWriteLock();
 
         ISharedCollectionLock GetWriteLock(TimeSpan timeout);
+
+        ISharedCollectionLock GetUpgradeableReadLock();
+
+        ISharedCollectionLock GetUpgradeableReadLock(TimeSpan timeout);
     }
 }

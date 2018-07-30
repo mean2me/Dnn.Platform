@@ -86,6 +86,24 @@ namespace DotNetNuke.Collections.Internal
             }
         }
 
+        public ISharedCollectionLock GetUpgradeableReadLock()
+        {
+            return GetUpgradeableReadLock(TimeSpan.FromMilliseconds(-1));
+        }
+
+        public ISharedCollectionLock GetUpgradeableReadLock(TimeSpan timeout)
+        {
+            EnsureNotDisposed();
+            if (Lock.TryEnterUpgradeableReadLock(timeout))
+            {
+                return new ReaderWriterSlimLock(Lock);
+            }
+            else
+            {
+                throw new ApplicationException("ReaderWriterLockStrategy.GetUpgradeableReadLock timed out");
+            }
+        }
+
         public ISharedCollectionLock GetWriteLock()
         {
             return GetWriteLock(TimeSpan.FromMilliseconds(-1));
@@ -109,7 +127,7 @@ namespace DotNetNuke.Collections.Internal
             get
             {
                 EnsureNotDisposed();
-                return Lock.IsReadLockHeld || Lock.IsWriteLockHeld;
+                return Lock.IsReadLockHeld || Lock.IsWriteLockHeld || Lock.IsUpgradeableReadLockHeld;
                 //todo uncomment if upgradelock is used OrElse _lock.IsUpgradeableReadLockHeld
             }
         }

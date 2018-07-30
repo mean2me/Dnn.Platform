@@ -141,5 +141,15 @@ namespace DotNetNuke.Collections.Internal
                 throw new ObjectDisposedException("ExclusiveLockStrategy");
             }
         }
+
+        public ISharedCollectionLock GetUpgradeableReadLock()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ISharedCollectionLock GetUpgradeableReadLock(TimeSpan timeout)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

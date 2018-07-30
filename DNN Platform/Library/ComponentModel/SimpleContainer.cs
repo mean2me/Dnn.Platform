@@ -115,7 +115,7 @@ namespace DotNetNuke.ComponentModel
         {
             IComponentBuilder builder;
 
-            using (_componentBuilders.GetReadLock())
+            using (_componentBuilders.GetUpgradeableReadLock())
             {
                 _componentBuilders.TryGetValue(name, out builder);
             }
@@ -127,7 +127,7 @@ namespace DotNetNuke.ComponentModel
         {
             IComponentBuilder builder;
 
-            using (componentType.ComponentBuilders.GetReadLock())
+            using (componentType.ComponentBuilders.GetUpgradeableReadLock())
             {
                 builder = componentType.ComponentBuilders.DefaultBuilder;
             }
@@ -139,7 +139,7 @@ namespace DotNetNuke.ComponentModel
         {
             ComponentType componentType;
 
-            using (_componentTypes.GetReadLock())
+            using (_componentTypes.GetUpgradeableReadLock())
             {
                 _componentTypes.TryGetValue(contractType, out componentType);
             }
@@ -181,7 +181,7 @@ namespace DotNetNuke.ComponentModel
             {
                 int builderCount;
 
-                using (componentType.ComponentBuilders.GetReadLock())
+                using (componentType.ComponentBuilders.GetUpgradeableReadLock())
                 {
                     builderCount = componentType.ComponentBuilders.Count;
                 }
@@ -215,7 +215,7 @@ namespace DotNetNuke.ComponentModel
         {
             var components = new List<string>();
 
-            using (_registeredComponents.GetReadLock())
+            using (_registeredComponents.GetUpgradeableReadLock())
             {
                 foreach (KeyValuePair<Type, string> kvp in _registeredComponents)
                 {
@@ -231,7 +231,7 @@ namespace DotNetNuke.ComponentModel
         public override IDictionary GetComponentSettings(string name)
         {
             IDictionary settings;
-            using (_componentDependencies.GetReadLock())
+            using (_componentDependencies.GetUpgradeableReadLock())
             {
                 settings = _componentDependencies[name];
             }
